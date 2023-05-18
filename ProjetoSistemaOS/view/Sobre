@@ -1,0 +1,61 @@
+package view;
+
+import java.awt.EventQueue;
+
+import javax.swing.JDialog;
+import javax.swing.JButton;
+import java.awt.BorderLayout;
+import javax.swing.ImageIcon;
+import javax.swing.JLabel;
+import java.awt.Font;
+import java.awt.Toolkit;
+
+public class Sobre extends JDialog {
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Sobre dialog = new Sobre();
+					dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
+					dialog.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the dialog.
+	 */
+	public Sobre() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/img/about.png")));
+		setTitle("Sobre");
+		setBounds(100, 100, 450, 300);
+		getContentPane().setLayout(null);
+		
+		JButton btnLogo = new JButton("");
+		btnLogo.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-icon.png")));
+		btnLogo.setToolTipText("Logo");
+		btnLogo.setBorderPainted(false);
+		btnLogo.setBorder(null);
+		btnLogo.setBounds(257, 30, 150, 150);
+		getContentPane().add(btnLogo);
+		
+		JLabel lblNewLabel = new JLabel("Fernando Almeida Gameiro Magaton");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
+		lblNewLabel.setBounds(10, 111, 235, 30);
+		getContentPane().add(lblNewLabel);
+		
+		JLabel lblNewLabel_1 = new JLabel("Sobre a Licença MIT");
+		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		lblNewLabel_1.setBounds(47, 141, 168, 17);
+		getContentPane().add(lblNewLabel_1);
+
+	}
+
+}
