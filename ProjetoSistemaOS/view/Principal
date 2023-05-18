@@ -1,0 +1,162 @@
+package view;
+
+import java.awt.Cursor;
+import java.awt.EventQueue;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.DateFormat;
+import java.util.Date;
+
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.border.EmptyBorder;
+
+import model.DAO;
+import java.awt.Toolkit;
+import java.awt.Color;
+import java.awt.Font;
+
+public class Principal extends JFrame {
+	// Instanciar objetos JDBC
+	DAO dao = new DAO();
+	private Connection con;
+	private PreparedStatement pst;
+	private ResultSet rs;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JLabel lblStatusz;
+	private JLabel lblLogo;
+	private JLabel lblData;
+	private JPanel panel;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Principal frame = new Principal();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Principal() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/notebook.png")));
+		setTitle("Sistema Para Gestão de Serviços");
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				status();
+				setarData();
+			}
+		});
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 648, 479);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JButton btnUsuarios = new JButton("");
+		btnUsuarios.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				// abrir tela de usuários
+				Usuarios usuarios = new Usuarios();
+				usuarios.setVisible(true);
+			}
+		});
+		btnUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/users.png")));
+		btnUsuarios.setToolTipText("Usuários");
+		btnUsuarios.setBounds(217, 109, 169, 167);
+		contentPane.add(btnUsuarios);
+
+		JButton btnSobre = new JButton("");
+		btnSobre.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		btnSobre.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				Sobre sobre = new Sobre();
+				sobre.setVisible(true);
+			}
+		});
+		btnSobre.setContentAreaFilled(false);
+		btnSobre.setIcon(new ImageIcon(Principal.class.getResource("/img/about.png")));
+		btnSobre.setToolTipText("Sobre");
+		btnSobre.setActionCommand("Sobre");
+		btnSobre.setBorder(null);
+		btnSobre.setBounds(570, 0, 52, 52);
+		contentPane.add(btnSobre);
+		
+		lblLogo = new JLabel("");
+		lblLogo.setIcon(new ImageIcon(Principal.class.getResource("/img/os.png")));
+		lblLogo.setToolTipText("Logo");
+		lblLogo.setBounds(504, 264, 128, 128);
+		contentPane.add(lblLogo);
+						
+								lblStatusz = new JLabel("");
+								lblStatusz.setBounds(574, 393, 48, 48);
+								contentPane.add(lblStatusz);
+								lblStatusz.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
+								
+								lblData = new JLabel("data");
+								lblData.setFont(new Font("Times New Roman", Font.BOLD, 16));
+								lblData.setBounds(10, 415, 446, 14);
+								contentPane.add(lblData);
+								
+								panel = new JPanel();
+								panel.setBackground(new Color(169, 169, 169));
+								panel.setBounds(0, 393, 632, 48);
+								contentPane.add(panel);
+
+	} // Fim do Construtor
+
+	private void status() {
+		try {
+			//abrir conexão
+			con = dao.conectar();
+			if (con == null) {
+				//System.out.println("Erro de Conexão");
+				lblStatusz.setIcon(new ImageIcon(Principal.class.getResource("/Img/dboff.png")));
+			} else {
+				//System.out.println("Banco Conectado");
+				lblStatusz.setIcon(new ImageIcon(Principal.class.getResource("/Img/dbon.png")));
+			}
+			//NUNCA esquecer de fechar a conexão
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	
+	}
+	/**
+	 * Método responsável por setar a data no rodapé
+	 */
+	private void setarData() {
+		// criar objeto para trazer a data do sistema
+		Date data = new Date();
+		// criar objeto para formatar a data
+		DateFormat formatador = DateFormat.getDateInstance(DateFormat.FULL);
+		// alterar o texto da label pela data atual formatada
+		lblData.setText(formatador.format(data));
+	}
+}	// Fim do Código
