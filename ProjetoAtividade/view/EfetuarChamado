@@ -1,0 +1,122 @@
+package br.com.view;
+
+import java.awt.Cursor;
+import java.awt.EventQueue;
+import java.awt.Font;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import br.com.dao.CRUDChamado;
+import br.com.dominio.Chamado;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+
+public class EfetuarChamado extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtNome;
+	private JTextField txtDepartamento;
+	private JLabel solicChamado;
+	private Object cc;
+	private JLabel soliciChamado;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					EfetuarChamado frame = new EfetuarChamado();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public EfetuarChamado() {
+		setTitle("Sistema de Suporte");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 700, 450);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblNome = new JLabel("Insira seu Nome:");
+		lblNome.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblNome.setBounds(260, 60, 192, 14);
+		contentPane.add(lblNome);
+		
+		JLabel lblDepartamento = new JLabel("Informe com qual Departamento deseja falar");
+		lblDepartamento.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblDepartamento.setBounds(260, 140, 267, 14);
+		contentPane.add(lblDepartamento);
+		
+		JLabel lblTitulo = new JLabel("Preencha Todos os Campos para Efetuar o Chamado");
+		lblTitulo.setFont(new Font("Times New Roman", Font.BOLD, 20));
+		lblTitulo.setBounds(210, 10, 453, 14);
+		contentPane.add(lblTitulo);
+		
+		JLabel lblProblema = new JLabel("Conte-nos mais sobre seu Problema:");
+		lblProblema.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblProblema.setBounds(260, 205, 215, 14);
+		contentPane.add(lblProblema);
+		
+		txtNome = new JTextField();
+		txtNome.setBounds(260, 85, 340, 25);
+		contentPane.add(txtNome);
+		txtNome.setColumns(10);
+		
+		txtDepartamento = new JTextField();
+		txtDepartamento.setBounds(260, 165, 340, 25);
+		contentPane.add(txtDepartamento);
+		txtDepartamento.setColumns(10);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(260, 230, 340, 150);
+		contentPane.add(scrollPane);
+		
+		JTextArea txtProblema = new JTextArea();
+		scrollPane.setViewportView(txtProblema);
+		
+		soliciChamado = new JLabel("Registrar Chamado");
+		soliciChamado.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CRUDChamado cc = new CRUDChamado();
+				Chamado soliChamado = new Chamado(); 
+				 
+				if(txtNome.getText().trim().equals("") || 
+				txtDepartamento.getText().trim().equals("") || 
+				txtProblema.getText().trim().equals("")) { 
+				 JOptionPane.showMessageDialog(null, "Todos os campos devem ser preenchidos.", "Erro 4000765x" , JOptionPane.ERROR_MESSAGE); 
+				} else { 
+				soliChamado.setSolicitacao(txtNome.getText()); 	 
+				soliChamado.setDepSolicitado(txtDepartamento.getText());  
+				soliChamado.setDescChamado(txtProblema.getText()); 
+				 JOptionPane.showMessageDialog(null, cc.registrar(soliChamado)); 
+				} 
+			}
+		});
+		soliciChamado.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		soliciChamado.setBounds(25, 200, 125, 25);
+		contentPane.add(soliciChamado);
+		
+		
+	}
+}
