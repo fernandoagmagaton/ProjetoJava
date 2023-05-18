@@ -9,6 +9,7 @@ import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import java.awt.Font;
 import java.awt.Toolkit;
+import javax.swing.SwingConstants;
 
 public class Sobre extends JDialog {
 
@@ -33,29 +34,75 @@ public class Sobre extends JDialog {
 	 * Create the dialog.
 	 */
 	public Sobre() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/img/about.png")));
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Sobre.class.getResource("/img/info.png")));
 		setTitle("Sobre");
 		setBounds(100, 100, 450, 300);
 		getContentPane().setLayout(null);
+		setLocationRelativeTo(null); //Centraliza a Janela
 		
 		JButton btnLogo = new JButton("");
 		btnLogo.setIcon(new ImageIcon(Sobre.class.getResource("/img/mit-icon.png")));
 		btnLogo.setToolTipText("Logo");
 		btnLogo.setBorderPainted(false);
 		btnLogo.setBorder(null);
-		btnLogo.setBounds(257, 30, 150, 150);
+		btnLogo.setBounds(276, 111, 150, 150);
 		getContentPane().add(btnLogo);
 		
-		JLabel lblNewLabel = new JLabel("Fernando Almeida Gameiro Magaton");
-		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 16));
-		lblNewLabel.setBounds(10, 111, 235, 30);
-		getContentPane().add(lblNewLabel);
+		JLabel lblAutor = new JLabel("Fernando Almeida Gameiro Magaton");
+		lblAutor.setFont(new Font("Times New Roman", Font.PLAIN, 18));
+		lblAutor.setBounds(10, 25, 275, 30);
+		getContentPane().add(lblAutor);
 		
-		JLabel lblNewLabel_1 = new JLabel("Sobre a Licença MIT");
-		lblNewLabel_1.setFont(new Font("Times New Roman", Font.BOLD, 14));
-		lblNewLabel_1.setBounds(47, 141, 168, 17);
-		getContentPane().add(lblNewLabel_1);
+		JLabel lblSobre = new JLabel("Sobre a Licença MIT");
+		lblSobre.setFont(new Font("Times New Roman", Font.BOLD, 12));
+		lblSobre.setBounds(287, 96, 139, 17);
+		getContentPane().add(lblSobre);
+		
+		JLabel lblNome = new JLabel("Lava-Rápido HotJets");
+		lblNome.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblNome.setBounds(10, 53, 139, 14);
+		getContentPane().add(lblNome);
+		
+		JLabel lblImg = new JLabel("");
+		lblImg.setIcon(new ImageIcon(Sobre.class.getResource("/img/carwash (1).png")));
+		lblImg.setBorder(null);
+		lblImg.setToolTipText("Lava Rápido");
+		lblImg.setBounds(10, 66, 67, 64);
+		getContentPane().add(lblImg);
+		
+		JLabel lblInstrucao = new JLabel("Redes do Autor:");
+		lblInstrucao.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblInstrucao.setBounds(10, 169, 115, 14);
+		getContentPane().add(lblInstrucao);
+		
+		JLabel lblInstagram = new JLabel("");
+		lblInstagram.setBorder(null);
+		lblInstagram.setIcon(new ImageIcon(Sobre.class.getResource("/img/instagram.png")));
+		lblInstagram.setToolTipText("Instagram");
+		lblInstagram.setBounds(10, 194, 32, 31);
+		getContentPane().add(lblInstagram);
+		
+		JLabel lblNomeInstagram = new JLabel("@fmagaton");
+		lblNomeInstagram.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		lblNomeInstagram.setBounds(45, 203, 97, 14);
+		getContentPane().add(lblNomeInstagram);
+		
+		JLabel lblGitHub = new JLabel("");
+		lblGitHub.setIcon(new ImageIcon(Sobre.class.getResource("/img/github.png")));
+		lblGitHub.setBorder(null);
+		lblGitHub.setToolTipText("GitHub");
+		lblGitHub.setBounds(10, 228, 32, 30);
+		getContentPane().add(lblGitHub);
+		
+		JLabel lblNomeGitHub = new JLabel("@fernandoagmagaton");
+		lblNomeGitHub.setFont(new Font("Times New Roman", Font.BOLD, 14));
+		lblNomeGitHub.setBounds(45, 235, 150, 14);
+		getContentPane().add(lblNomeGitHub);
+		
+		JLabel lblNewLabel = new JLabel("Autor:");
+		lblNewLabel.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblNewLabel.setBounds(10, 11, 67, 14);
+		getContentPane().add(lblNewLabel);
 
 	}
-
 }
