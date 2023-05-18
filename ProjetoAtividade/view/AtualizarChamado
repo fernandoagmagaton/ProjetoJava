@@ -1,0 +1,173 @@
+package br.com.view;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.Date;
+
+import javax.swing.DefaultComboBoxModel;
+import javax.swing.JComboBox;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import br.com.dao.CRUDChamado;
+import br.com.dominio.Chamado;
+import java.awt.Cursor;
+
+public class AtualizarChamado extends JFrame {
+
+	private JPanel contentPane;
+	private JTextField txtId;
+	private JTextField txtRespon;
+	private JLabel lblAtualizar;
+	private JLabel lblExcluir;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					AtualizarChamado frame = new AtualizarChamado();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public AtualizarChamado() {
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 750, 550);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+		
+		JLabel lblId = new JLabel("ID Chamado:");
+		lblId.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblId.setBounds(390, 35, 85, 15);
+		contentPane.add(lblId);
+		
+		JLabel lblStatus = new JLabel("Status Chamado:");
+		lblStatus.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblStatus.setBounds(560, 35, 105, 14);
+		contentPane.add(lblStatus);
+		
+		txtId = new JTextField();
+		txtId.setBounds(388, 60, 86, 20);
+		contentPane.add(txtId);
+		txtId.setColumns(10);
+		
+		JComboBox cbxStatus = new JComboBox();
+		cbxStatus.setModel(new DefaultComboBoxModel(new String[] {"", "Pendente", "Finalizado"}));
+		cbxStatus.setBounds(560, 59, 105, 21);
+		contentPane.add(cbxStatus);
+		
+		JLabel lblData = new JLabel("Data de Resolução do Chamado:");
+		lblData.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblData.setBounds(340, 115, 194, 14);
+		contentPane.add(lblData);
+		
+		JLabel lblRespon = new JLabel("Responsável do Chamado:");
+		lblRespon.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblRespon.setBounds(550, 115, 155, 14);
+		contentPane.add(lblRespon);
+		
+		txtRespon = new JTextField();
+		txtRespon.setBounds(540, 140, 180, 25);
+		contentPane.add(txtRespon);
+		txtRespon.setColumns(10);
+		
+		JComboBox cbxDia = new JComboBox();
+		cbxDia.setModel(new DefaultComboBoxModel(new String[] {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"}));
+		cbxDia.setBounds(340, 140, 45, 25);
+		contentPane.add(cbxDia);
+		
+		JComboBox cbxMes = new JComboBox();
+		cbxMes.setModel(new DefaultComboBoxModel(new String[] {"", "01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"}));
+		cbxMes.setBounds(390, 140, 45, 25);
+		contentPane.add(cbxMes);
+		
+		JComboBox cbxAno = new JComboBox();
+		cbxAno.setModel(new DefaultComboBoxModel(new String[] {"", "2023", "2024", "2025", "2026", "2027", "2028", "2029", "2030"}));
+		cbxAno.setBounds(440, 140, 60, 25);
+		contentPane.add(cbxAno);
+		
+		JLabel lblObs = new JLabel("Observações:");
+		lblObs.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblObs.setBounds(420, 225, 85, 15);
+		contentPane.add(lblObs);
+		
+		JScrollPane scrollPane = new JScrollPane();
+		scrollPane.setBounds(340, 260, 385, 240);
+		contentPane.add(scrollPane);
+		
+		JTextArea txtObs = new JTextArea();
+		scrollPane.setViewportView(txtObs);
+		
+		lblAtualizar = new JLabel("Atualizar Chamado");
+		lblAtualizar.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblAtualizar.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CRUDChamado cc = new CRUDChamado();
+				Chamado cr = new Chamado(); 
+				 
+				if(txtRespon.getText().trim().equals("") || cbxStatus.getSelectedItem().toString()=="" || 
+				txtId.getText().trim().equals("") || cbxDia.getSelectedItem().toString()=="" || cbxMes.getSelectedItem().toString()=="" || 
+				cbxAno.getSelectedItem().toString()=="") {
+				 JOptionPane.showMessageDialog(null, "Os campos Responsável Chamado, Id do Chamado, Status do Chamado e Data de Resolução devem ser preenchidos", "Erro 4000765x" , JOptionPane.ERROR_MESSAGE); 
+				} else {  
+				 cr.setDataResolucao(cbxDia.getSelectedItem().toString());
+				 cr.setDataResolucao(cbxMes.getSelectedItem().toString());
+				 cr.setDataResolucao(cbxAno.getSelectedItem().toString());
+				cr.setStatusChamado(cbxStatus.getSelectedItem().toString()); 
+				cr.setAtendente(txtRespon.getText()); 
+				cr.setObservacoes(txtObs.getText()); 
+				cr.setIdChamado(Long.parseLong(txtId.getText())); 
+				 JOptionPane.showMessageDialog(null, cc.atualizar(cr)); 
+				} 
+
+			}
+		});
+		lblAtualizar.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblAtualizar.setBounds(80, 205, 115, 20);
+		contentPane.add(lblAtualizar);
+		
+		lblExcluir = new JLabel("Excluir Chamado");
+		lblExcluir.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				CRUDChamado cc = new CRUDChamado();
+				if(txtId.equals(null)) { 
+					JOptionPane.showMessageDialog(null,"Selecione o chamado a ser excluído.","Erro 4000770x",JOptionPane.ERROR_MESSAGE); 
+					} else { 
+					if(JOptionPane.showConfirmDialog(null, "Você tem certeza desta ação? \nEstá ação é permanente "+ "e não pode ser desfeita", "ATENÇÃO", JOptionPane.YES_NO_OPTION, 
+					 JOptionPane.QUESTION_MESSAGE) == 0) { 
+					Chamado cr = new Chamado(); 
+					cr.setIdChamado(Long.parseLong(txtId.getText())); 
+					JOptionPane.showConfirmDialog(null, cc.apagar(cr)); 
+					}
+				}
+			}
+		});
+		lblExcluir.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+		lblExcluir.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblExcluir.setBounds(80, 235, 115, 20);
+		contentPane.add(lblExcluir);
+	}
+}
