@@ -1,0 +1,187 @@
+package view;
+
+import java.awt.EventQueue;
+import java.awt.Font;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.WindowAdapter;
+import java.awt.event.WindowEvent;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPasswordField;
+import javax.swing.JTextField;
+import javax.swing.border.EmptyBorder;
+
+import model.DAO;
+import java.awt.Color;
+
+import javax.swing.AbstractButton;
+import javax.swing.ImageIcon;
+import java.awt.Toolkit;
+
+public class Login extends JFrame {
+
+	// objetos JDBC
+	DAO dao = new DAO();
+	private Connection con;
+	private PreparedStatement pst;
+	private ResultSet rs;
+	
+	//objeto tela principal
+	Principal principal = new Principal();
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+	private JPanel contentPane;
+	private JTextField txtLogin;
+	private JPasswordField txtSenhaNL;
+	private JButton btnAcessar;
+	private JLabel lblStatusz;
+
+	/**
+	 * Launch the application.
+	 */
+	public static void main(String[] args) {
+		EventQueue.invokeLater(new Runnable() {
+			public void run() {
+				try {
+					Login frame = new Login();
+					frame.setVisible(true);
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+
+	/**
+	 * Create the frame.
+	 */
+	public Login() {
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Login.class.getResource("/img/carwash.png")));
+		addWindowListener(new WindowAdapter() {
+			@Override
+			public void windowActivated(WindowEvent e) {
+				//ativação da janela
+				status();
+			}
+		});
+		setTitle("HotJets");
+		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setBounds(100, 100, 450, 300);
+		contentPane = new JPanel();
+		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
+
+		setContentPane(contentPane);
+		contentPane.setLayout(null);
+
+		JLabel lblLogin = new JLabel("Login:");
+		lblLogin.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblLogin.setBounds(10, 25, 63, 17);
+		contentPane.add(lblLogin);
+
+		txtLogin = new JTextField();
+		txtLogin.setBounds(65, 25, 200, 20);
+		contentPane.add(txtLogin);
+		txtLogin.setColumns(10);
+
+		JLabel lblSenhaNL = new JLabel("Senha:");
+		lblSenhaNL.setFont(new Font("Times New Roman", Font.PLAIN, 14));
+		lblSenhaNL.setBounds(10, 75, 63, 14);
+		contentPane.add(lblSenhaNL);
+
+		txtSenhaNL = new JPasswordField();
+		txtSenhaNL.setBounds(65, 75, 200, 20);
+		contentPane.add(txtSenhaNL);
+
+		btnAcessar = new JButton("Acessar");
+		btnAcessar.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				logar();
+			}
+		});
+		btnAcessar.setFont(new Font("Times New Roman", Font.PLAIN, 15));
+		btnAcessar.setBounds(335, 161, 89, 23);
+		contentPane.add(btnAcessar);
+		
+		lblStatusz = new JLabel("");
+		lblStatusz.setBorder(null);
+		lblStatusz.setIcon(new ImageIcon(Login.class.getResource("/img/dboff.png")));
+		lblStatusz.setToolTipText("Conection");
+		lblStatusz.setBounds(369, 204, 55, 57);
+		contentPane.add(lblStatusz);
+		
+		JPanel panel = new JPanel();
+		panel.setBackground(new Color(127, 255, 212));
+		panel.setBounds(0, 204, 434, 57);
+		contentPane.add(panel);
+		// substituir o click pela tecla <ENTER> em um botão
+				getRootPane().setDefaultButton(btnAcessar);
+				
+	} // fim do construtor
+
+	/**
+	 * 
+	 */
+	private void logar() {
+		//criar uma variavel/objeto para capturar a senha
+		String capturaSenha = new String(txtSenhaNL.getPassword());
+		//validação 
+		if (txtLogin.getText().isEmpty()) {
+			JOptionPane.showMessageDialog(null, "Preencha o Login:");
+			txtLogin.requestFocus();
+		} else if (capturaSenha.length() == 0) {
+		JOptionPane.showMessageDialog(null, "Preencha a Senha:");
+		txtSenhaNL.requestFocus();
+	} else {
+		//logica principal
+		String read = "select * from usuarios where login=? and senha=md5(?)";
+		try {
+			con = dao.conectar();
+			pst = con.prepareStatement(read);
+			pst.setString(1, txtLogin.getText());
+			pst.setString(2, capturaSenha);
+			rs = pst.executeQuery();
+			if (rs.next()) {
+				//logar -> acessar a tela principal
+				principal.setVisible(true);
+				//fechar  a ela de login
+				this.dispose();
+			} else {
+				JOptionPane.showMessageDialog(null, "Usuário e/ou Senha inválido(a).");
+			}
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+			}
+		}
+	}
+	//status
+	private void status() {
+		try {
+			//abrir conexão
+			con = dao.conectar();
+			if (con == null) {
+				//System.out.println("Erro de Conexão");
+				lblStatusz.setIcon(new ImageIcon(Principal.class.getResource("/Img/dboff.png")));
+			} else {
+				//System.out.println("Banco Conectado");
+				lblStatusz.setIcon(new ImageIcon(Principal.class.getResource("/Img/dbon.png")));
+			}
+			//NUNCA esquecer de fechar a conexão
+			con.close();
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+	
+	}
+} //fim
