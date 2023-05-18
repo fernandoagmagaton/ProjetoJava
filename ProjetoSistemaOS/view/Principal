@@ -23,6 +23,7 @@ import model.DAO;
 import java.awt.Toolkit;
 import java.awt.Color;
 import java.awt.Font;
+import javax.swing.SwingConstants;
 
 public class Principal extends JFrame {
 	// Instanciar objetos JDBC
@@ -39,6 +40,9 @@ public class Principal extends JFrame {
 	private JLabel lblLogo;
 	private JLabel lblData;
 	private JPanel panel;
+	private JButton btnClientes;
+	private JButton btnServico;
+	private JButton btnRelatorios;
 
 	/**
 	 * Launch the application.
@@ -60,8 +64,8 @@ public class Principal extends JFrame {
 	 * Create the frame.
 	 */
 	public Principal() {
-		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/notebook.png")));
-		setTitle("Sistema Para Gestão de Serviços");
+		setIconImage(Toolkit.getDefaultToolkit().getImage(Principal.class.getResource("/img/carwash.png")));
+		setTitle("HotJets - Lava Rápido");
 		addWindowListener(new WindowAdapter() {
 			@Override
 			public void windowActivated(WindowEvent e) {
@@ -70,14 +74,18 @@ public class Principal extends JFrame {
 			}
 		});
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setBounds(100, 100, 648, 479);
+		setBounds(100, 100, 648, 480);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
 
 		setContentPane(contentPane);
+		setLocationRelativeTo(null); //Centraliza a Janela
 		contentPane.setLayout(null);
 
 		JButton btnUsuarios = new JButton("");
+		btnUsuarios.setContentAreaFilled(false);
+		btnUsuarios.setBorder(null);
+		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/user.png")));
 		btnUsuarios.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				// abrir tela de usuários
@@ -86,9 +94,8 @@ public class Principal extends JFrame {
 			}
 		});
 		btnUsuarios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
-		btnUsuarios.setIcon(new ImageIcon(Principal.class.getResource("/img/users.png")));
 		btnUsuarios.setToolTipText("Usuários");
-		btnUsuarios.setBounds(217, 109, 169, 167);
+		btnUsuarios.setBounds(443, 63, 168, 175);
 		contentPane.add(btnUsuarios);
 
 		JButton btnSobre = new JButton("");
@@ -100,7 +107,7 @@ public class Principal extends JFrame {
 			}
 		});
 		btnSobre.setContentAreaFilled(false);
-		btnSobre.setIcon(new ImageIcon(Principal.class.getResource("/img/about.png")));
+		btnSobre.setIcon(new ImageIcon(Principal.class.getResource("/img/info.png")));
 		btnSobre.setToolTipText("Sobre");
 		btnSobre.setActionCommand("Sobre");
 		btnSobre.setBorder(null);
@@ -108,25 +115,63 @@ public class Principal extends JFrame {
 		contentPane.add(btnSobre);
 		
 		lblLogo = new JLabel("");
-		lblLogo.setIcon(new ImageIcon(Principal.class.getResource("/img/os.png")));
+		lblLogo.setIcon(new ImageIcon(Principal.class.getResource("/img/carwash (1).png")));
 		lblLogo.setToolTipText("Logo");
-		lblLogo.setBounds(504, 264, 128, 128);
+		lblLogo.setBounds(10, 11, 64, 80);
 		contentPane.add(lblLogo);
-						
-								lblStatusz = new JLabel("");
-								lblStatusz.setBounds(574, 393, 48, 48);
-								contentPane.add(lblStatusz);
-								lblStatusz.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
 								
 								lblData = new JLabel("data");
 								lblData.setFont(new Font("Times New Roman", Font.BOLD, 16));
 								lblData.setBounds(10, 415, 446, 14);
 								contentPane.add(lblData);
-								
-								panel = new JPanel();
-								panel.setBackground(new Color(169, 169, 169));
-								panel.setBounds(0, 393, 632, 48);
-								contentPane.add(panel);
+										
+												lblStatusz = new JLabel("");
+												lblStatusz.setIcon(new ImageIcon(Principal.class.getResource("/img/dboff.png")));
+												lblStatusz.setBounds(574, 392, 48, 48);
+												contentPane.add(lblStatusz);
+												
+												panel = new JPanel();
+												panel.setBackground(new Color(30, 144, 255));
+												panel.setBounds(0, 392, 632, 48);
+												contentPane.add(panel);
+												
+												btnClientes = new JButton("");
+												btnClientes.addActionListener(new ActionListener() {
+													public void actionPerformed(ActionEvent e) {
+														// abrir tela de usuários
+														Clientess clientes = new Clientess();
+														clientes.setVisible(true);
+													}
+												});
+												btnClientes.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+												btnClientes.setIcon(new ImageIcon(Principal.class.getResource("/img/client (1).png")));
+												btnClientes.setToolTipText("Clientes");
+												btnClientes.setContentAreaFilled(false);
+												btnClientes.setBorderPainted(false);
+												btnClientes.setBorder(null);
+												btnClientes.setBounds(302, 80, 129, 143);
+												contentPane.add(btnClientes);
+												
+												btnServico = new JButton("");
+												btnServico.setIcon(new ImageIcon(Principal.class.getResource("/img/technical-support (1).png")));
+												btnServico.setToolTipText("Serviço");
+												btnServico.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+												btnServico.setBorder(null);
+												btnServico.setContentAreaFilled(false);
+												btnServico.setBorderPainted(false);
+												btnServico.setBounds(302, 247, 129, 134);
+												contentPane.add(btnServico);
+												
+												btnRelatorios = new JButton("");
+												btnRelatorios.setCursor(Cursor.getPredefinedCursor(Cursor.HAND_CURSOR));
+												btnRelatorios.setIcon(new ImageIcon(Principal.class.getResource("/img/report (1).png")));
+												btnRelatorios.setToolTipText("Relatorio");
+						
+												btnRelatorios.setBorder(null);
+												btnRelatorios.setContentAreaFilled(false);
+												btnRelatorios.setBorderPainted(false);
+												btnRelatorios.setBounds(443, 238, 179, 143);
+												contentPane.add(btnRelatorios);
 
 	} // Fim do Construtor
 
